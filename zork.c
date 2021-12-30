@@ -22,13 +22,13 @@ int main()
 
     /* Calculating for a center placement */
 	/* of the window		*/
-    height = 10;
+    height = 20;
     width = 40;
     starty = (LINES -height)/2;
     startx = (COLS - width)/2;
 
     my_win = create_newwin(height, width, starty, startx);
-    mvaddstr(LINES - 1, 0, "Press any F1-key to exit...");
+    mvaddstr(LINES - 1, 0, "Press F1-key to exit...");
     refresh();
 
     wprintw(my_win,"Welcome to Zork game;\n");
