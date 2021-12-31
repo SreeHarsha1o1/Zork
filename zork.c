@@ -8,6 +8,7 @@ void destroy_win(WINDOW *local_win);
 int main()
 {
     WINDOW *my_win;
+    WINDOW *my_win2; 
     int startx, starty, width, height;
     int ch;
 
@@ -23,14 +24,16 @@ int main()
 
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3,COLOR_BLUE, COLOR_BLACK);
     /* Calculating for a center placement */
 	/* of the window		*/
-    height = 20;
+    height = 10;
     width = 40;
     starty = (LINES -height)/2;
     startx = (COLS - width)/2;
 
     my_win = create_newwin(height, width, starty, startx); //creating window
+    my_win2 = create_newwin(10,80,COLS,LINES-4); //creating another window
     
     attron(COLOR_PAIR(1));
     mvaddstr(LINES - 1, 0, "Press F1-key to exit...");
@@ -42,6 +45,11 @@ int main()
     wprintw(my_win,"press enter-key to enter the game\n");
     wrefresh(my_win);
     wattroff(my_win,COLOR_PAIR(2));
+
+    wattron(my_win2, COLOR_PAIR(3));
+    waddch(my_win2,ACS_LARROW);
+    wrefresh(my_win2);
+    wattroff(my_win2, COLOR_PAIR(3));
 
     while((ch = getch()) != KEY_F(1))
     {   
