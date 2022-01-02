@@ -7,9 +7,9 @@ void destroy_win(WINDOW *local_win);
 
 int main()
 {
-    WINDOW *my_win;
+    WINDOW *my_win1;
     WINDOW *my_win2; 
-    int startx, starty, width, height;
+    int startx, starty, width, height, height_win2, width_win2;
     int ch;
 
     /* Initialize curses */
@@ -25,29 +25,35 @@ int main()
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3,COLOR_BLUE, COLOR_BLACK);
-    /* Calculating for a center placement */
-	/* of the window		*/
-    height = 10;
-    width = 40;
-    starty = (LINES -height)/2;
-    startx = (COLS - width)/2;
+    
+    /* Calculating for a placement */
+	/* of the window 1		*/
+    height = 20;
+    width = 100;
+    starty = (LINES - 35);
+    startx = 0;
 
-    my_win = create_newwin(height, width, starty, startx); //creating window
-    my_win2 = create_newwin(10,80,COLS,LINES-4); //creating another window
+    /* Calculating for a placement */
+	/* of the window 2		*/
+    height_win2 = 10;
+    width_win2 = 100;
+
+    my_win1 = create_newwin(height, width, starty, startx); //creating window
+    my_win2 = create_newwin(height_win2, width_win2,LINES-12,0); //creating another window
     
     attron(COLOR_PAIR(1));
     mvaddstr(LINES - 1, 0, "Press F1-key to exit...");
     refresh();
     attron(COLOR_PAIR(1));
 
-    wattron(my_win,COLOR_PAIR(2));
-    wprintw(my_win,"Welcome to Zork game;\n");
-    wprintw(my_win,"press enter-key to enter the game\n");
-    wrefresh(my_win);
-    wattroff(my_win,COLOR_PAIR(2));
+    wattron(my_win1,COLOR_PAIR(2));
+    mvwprintw(my_win1,1,1,"Welcome to Zork game;\n");
+    mvwprintw(my_win1,2,1,"press enter-key to enter the game\n");
+    wrefresh(my_win1);
+    wattroff(my_win1,COLOR_PAIR(2));
 
     wattron(my_win2, COLOR_PAIR(3));
-    waddch(my_win2,ACS_LARROW);
+    mvwaddch(my_win2, 1,1,ACS_RARROW);
     wrefresh(my_win2);
     wattroff(my_win2, COLOR_PAIR(3));
 
@@ -57,8 +63,10 @@ int main()
         switch(ch)
         {
             case 10: //enter-key condition
-                wprintw(my_win, "you have entered the game");
-                wrefresh(my_win);
+                mvwprintw(my_win1,3,1, "you have entered the game");
+                wrefresh(my_win1);
+                mvwprintw(my_win1,4,1, "You are a wanderer and collector of trinkets, while wandering you find a letter on the ground");
+                wrefresh(my_win1);
                 //destroy_win(my_win);
                 break;  
         }
@@ -67,7 +75,8 @@ int main()
     // mvaddstr(LINES - 1, 0, "Press any key to exit...");
     // refresh();
     // getch();
-    destroy_win(my_win);    
+    destroy_win(my_win1);
+    destroy_win(my_win2);     
     endwin();
 
     return 0;
