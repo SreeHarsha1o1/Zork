@@ -11,6 +11,7 @@ int main()
     WINDOW *my_win2; 
     int startx, starty, width, height, height_win2, width_win2;
     int ch;
+    char str[80];
 
     /* Initialize curses */
     initscr();
@@ -24,7 +25,7 @@ int main()
 
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
-    init_pair(3,COLOR_BLUE, COLOR_BLACK);
+    init_pair(3,COLOR_YELLOW, COLOR_BLACK);
     
     /* Calculating for a placement */
 	/* of the window 1		*/
@@ -54,6 +55,7 @@ int main()
 
     wattron(my_win2, COLOR_PAIR(3));
     mvwaddch(my_win2, 1,1,ACS_RARROW);
+   // getstr(str);//getting user input
     wrefresh(my_win2);
     wattroff(my_win2, COLOR_PAIR(3));
 
@@ -64,9 +66,12 @@ int main()
         {
             case 10: //enter-key condition
                 mvwprintw(my_win1,3,1, "you have entered the game");
-                wrefresh(my_win1);
+               // wrefresh(my_win1);
                 mvwprintw(my_win1,4,1, "You are a wanderer and collector of trinkets, while wandering you find a letter on the ground");
                 wrefresh(my_win1);
+                mvwscanw(my_win2,1,2, str);
+                mvwprintw(my_win2,2,1, str);
+                wrefresh(my_win2);
                 //destroy_win(my_win);
                 break;  
         }
