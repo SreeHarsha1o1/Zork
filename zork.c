@@ -41,10 +41,10 @@ int main()
     width_win2 = 100;
 
    
-	int cur_cols = 2; //setting the cursor columns
+	int cur_cols = 1; //setting the cursor columns
 	int my_win_buffer_len = 0; // window buffer length
 	char my_win_buffer_line[1000];// array of character 
-	int cur_rows = 0;//setting cursor row
+	int cur_rows = 5;//setting cursor row
 
     my_win1 = create_newwin(height, width, starty, startx); //creating window
     my_win2 = create_newwin(height_win2, width_win2,LINES-12,0); //creating another window
@@ -62,15 +62,11 @@ int main()
 
     wattron(my_win2, COLOR_PAIR(3));
     mvwaddch(my_win2, 1,1,ACS_RARROW);
-   // getstr(str);//getting user input
-    //move curser to window location;
-    wmove(my_win2, 1,2);
-    wrefresh(my_win2);
     wattroff(my_win2, COLOR_PAIR(3));
 
     while((ch = getch()) != KEY_F(1))
     {   
-        
+        keypad(my_win2, TRUE);
         switch(ch)
         {
             case KEY_F(5): //enter-key condition
@@ -79,39 +75,45 @@ int main()
                 mvwprintw(my_win1,4,1, "You are a wanderer and collector of trinkets, while wandering you find a letter on the ground");
                 wrefresh(my_win1);
                 //destroy_win(my_win);
+                wmove(my_win2, 1,2);
+                wrefresh(my_win2);
                 break; 
             case '\n':
-				wmove(my_win2, 1,2);
-				cur_cols = 0;
-				int i;
-				for (i = 0; i < COLS; ++i)
-				{
-					addch(' ');
-				}
-				cur_rows++;
-				if(cur_rows == LINES-3){
-					werase(my_win1);
-					wrefresh(my_win1);
-					cur_rows = 0;
-				}
-				my_win_buffer_line[my_win_buffer_len++]='\n';
-				my_win_buffer_line[my_win_buffer_len++]='\0';
-				wprintw(my_win1, my_win_buffer_line);
+				
+				// cur_cols = 0;
+				// int i;
+				// for (i = 0; i < width_win2; ++i)
+				// {
+				// 	addch(' ');
+				// }
+				// cur_rows++;
+				// if(cur_rows == 1){
+				// 	werase(my_win1);
+				// 	wrefresh(my_win1);
+				// 	cur_rows = 0;
+				// }
+				// my_win_buffer_line[my_win_buffer_len++]='\n';
+				// my_win_buffer_line[my_win_buffer_len++]='\0';
+                //werase(my_win1);
+                wrefresh(my_win1);
+				mvwprintw(my_win1,cur_rows, cur_cols, my_win_buffer_line);
 				wrefresh(my_win1);
 				my_win_buffer_len = 0;
+                wmove(my_win2, 1,2);
 				break;
             case KEY_BACKSPACE:
 				cur_cols--;
-				wmove(my_win2,LINES-1, cur_cols);
+				wmove(my_win2,1, cur_cols);
 				addch(' ');
-				wmove(my_win2,LINES-1, cur_cols);
+				wmove(my_win2,1, cur_cols);
 				my_win_buffer_len--;
 				break;
             default:
-				wmove(my_win2,LINES-1, cur_cols);
+				wmove(my_win2,1, cur_cols);
 				my_win_buffer_line[my_win_buffer_len++] = ch;
-				addch(ch);
-				cur_cols++; 
+				mvwaddch(my_win2,1,2,ch);
+                //mvwscanw(my_win2,1,2,"%s", &my_win_buffer_line);
+				//cur_cols++; 
         }
     }
 
