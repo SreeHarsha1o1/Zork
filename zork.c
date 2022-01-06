@@ -98,6 +98,7 @@ int main()
                 wrefresh(my_win1);
 				mvwprintw(my_win1,cur_rows, cur_cols, my_win_buffer_line);
 				wrefresh(my_win1);
+                cur_rows++;
 				my_win_buffer_len = 0;
                 wmove(my_win2, 1,2);
 				break;
@@ -110,10 +111,16 @@ int main()
 				break;
             default:
 				wmove(my_win2,1, cur_cols);
-				my_win_buffer_line[my_win_buffer_len++] = ch;
-				mvwaddch(my_win2,1,2,ch);
+				// my_win_buffer_line[my_win_buffer_len++] = ch;
+				// mvwaddch(my_win2,1,2,ch);
+                
                 //mvwscanw(my_win2,1,2,"%s", &my_win_buffer_line);
-				//cur_cols++; 
+                wclear(my_win2);
+                box(my_win2, 0,0);
+                mvwgetstr(my_win2,1,2,my_win_buffer_line);
+				//cur_cols++;
+                mvwprintw(my_win2,1,2,"%s", my_win_buffer_line); 
+                wrefresh(my_win2);
         }
     }
 
